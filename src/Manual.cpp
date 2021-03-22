@@ -337,39 +337,6 @@ manual_create_thread:
   printf("[+] Successfully loaded DLL into target process!\n");
 
 thread_hijack:
-  /*
-   push rax
-push r9
-push r8
-push rdx
-push rcx
-
-
-
-push 0x00000000
-push 0x00000000
-mov  r9,  0x1234567812345678
-mov  r8,  0x1234567812345678
-mov  rdx, 0
-mov  rcx, 0
-
-mov  rax, 0x1234567812345678
-call rax
-
-add  rsp, 8*2
-
-pop rcx
-pop rdx
-pop r8
-pop r9
-pop rax
-
-mov r15, 0x1234567812345678
-push r15
-ret
-
-  */
-
   DWORD tid = GetFirstThreadID(pid);
   if(!tid)
       return ParseError(remoteProcess, RemoteLoadBase, REMOTE_THREAD_ERROR);
