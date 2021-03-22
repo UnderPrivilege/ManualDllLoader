@@ -45,7 +45,7 @@ DWORD_PTR FindImportsHeader(DWORD_PTR ImportDirectoryRVA, DWORD_PTR SectionHeade
     return -1;
 }
 
-Errors LoadRemoteDll(LPCWSTR dllPath, DWORD pid) {
+Errors LoadRemoteBinary(LPCWSTR dllPath, DWORD pid) {
 
   HANDLE remoteProcess = OpenProcess(PROCESS_VM_WRITE | PROCESS_VM_OPERATION | PROCESS_VM_READ , FALSE, pid);
   if(!remoteProcess)
@@ -82,7 +82,7 @@ Errors LoadRemoteDll(LPCWSTR dllPath, DWORD pid) {
 
   if(nt->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC) return ParseError(remoteProcess, NULL, INVALID_PE_ARCH);
 
-  if(!(nt->FileHeader.Characteristics & IMAGE_FILE_DLL)) return ParseError(remoteProcess, NULL, INVALID_DLL);
+  //if(!(nt->FileHeader.Characteristics & IMAGE_FILE_DLL)) return ParseError(remoteProcess, NULL, INVALID_DLL);
 
   //dos+e_lfanew+SizeOfFileHeader
   ULONGLONG SectionListOffset = (ULONGLONG)IMAGE_FIRST_SECTION(nt);
@@ -421,5 +421,5 @@ int main()
   
   LPCWSTR dllPath = argv[1];
   int pid         = atoi(argv[2]);
-  LoadRemoteDll(dllPath, pid);
+  LoadRemoteBinary(dllPath, pid);
 }
