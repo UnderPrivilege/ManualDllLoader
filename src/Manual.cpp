@@ -405,3 +405,21 @@ thread_hijack:
 
   return (Errors)NULL;
 }
+
+int main()
+{
+  int  argc;
+  BYTE cmdline[] = new BYTE[1 << 8];
+  
+  __wgetmainargs(&argc, &cmdline, NULL, 0, 0);
+  
+  if(argc < 2)
+  {
+    printf("Usage: Manual.exe dll_path targetPid\n");
+    return 1;
+  }
+  
+  LPCWSTR dllPath = argv[1];
+  int pid         = atoi(argv[2]);
+  LoadRemoteDll(dllPath, pid);
+}
